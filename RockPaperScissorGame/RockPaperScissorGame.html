@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <center><h1>Rock Paper Scissors Game</h1></center>
+    <br>
+    <div id="rps">
+        <pre id="rRock" hidden>
+        _______
+    ---'   ____)
+          (_____)
+          (_____)
+          (____)
+    ---.__(___)
+        </pre>
+        <pre id="rPaper" hidden>
+        _______
+    ---'   ____)____
+              ______)
+              _______)
+             _______)
+    ---.__________)
+        </pre>
+        <pre id="rScissor" hidden>
+        _______
+    ---'   ____)____
+              ______)
+           __________)
+          (____)
+    ---.__(___)
+        </pre>
+        <div id="rpsVS" align="center" hidden>VS</div>
+        <pre id="pRock" hidden>
+                                                             _______
+                                                            (____)  '----
+                                                          (_____)     
+                                                          (_____)  
+                                                           (____)
+                                                            (___)__.---
+        </pre>
+        <pre id="pPaper" hidden>
+                                                             _______
+                                                         ___(_____  '----
+                                                        (______
+                                                        (_______
+                                                        (_______
+                                                            (_________.----
+        </pre>
+        <pre id="pScissor" hidden>
+                                                             _______
+                                                         ___(_____  '----
+                                                        (______
+                                                        (________
+                                                            (____)
+                                                             (___)___.----
+        </pre>
+    </div>
+	<br>
+    <center>
+        <h3 id="expl"></h2>
+        <h2 id="result"></h2>
+        <br>
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
+    </center>
+</div>
+
+<script>
+    function computerPlay() {
+        const choices = ['rock', 'paper', 'scissors'];
+        const randomIndex = Math.floor(Math.random() * choices.length);
+        return choices[randomIndex];
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        playerSelection = playerSelection.toLowerCase();
+        computerSelection = computerSelection.toLowerCase();
+
+        if (playerSelection === computerSelection) {
+            return 'It\'s a Tie!';
+        } else if (
+            (playerSelection === 'rock' && computerSelection === 'scissors') ||
+            (playerSelection === 'paper' && computerSelection === 'rock') ||
+            (playerSelection === 'scissors' && computerSelection === 'paper')
+        ) {
+            return 'You Win!';
+        } else {
+            return 'You Lose!';
+        }
+    }
+
+    function displayChoices(playerChoice, computerChoice){
+        let rcr = document.getElementById("rRock");
+        let rcp = document.getElementById("rPaper");
+        let rcs = document.getElementById("rScissor");
+        let pcr = document.getElementById("pRock");
+        let pcp = document.getElementById("pPaper");
+        let pcs = document.getElementById("pScissor");
+        let rpsVS = document.getElementById("rpsVS");
+
+        rpsVS.removeAttribute("hidden");
+
+        //computer choice
+        if (computerChoice === 'rock') {
+            rcr.removeAttribute("hidden");
+            rcp.setAttribute("hidden", "hidden");
+            rcs.setAttribute("hidden", "hidden");
+        } else if(computerChoice === 'paper'){
+            rcr.setAttribute("hidden", "hidden");
+            rcp.removeAttribute("hidden");
+            rcs.setAttribute("hidden", "hidden");
+        } else {
+            rcr.setAttribute("hidden", "hidden");
+            rcp.setAttribute("hidden", "hidden");
+            rcs.removeAttribute("hidden");
+        }
+
+        //player choice
+        if (playerChoice === 'rock') {
+            pcr.removeAttribute("hidden");
+            pcp.setAttribute("hidden", "hidden");
+            pcs.setAttribute("hidden", "hidden");
+        } else if(playerChoice === 'paper'){
+            pcr.setAttribute("hidden", "hidden");
+            pcp.removeAttribute("hidden");
+            pcs.setAttribute("hidden", "hidden");
+        } else {
+            pcr.setAttribute("hidden", "hidden");
+            pcp.setAttribute("hidden", "hidden");
+            pcs.removeAttribute("hidden");
+        }
+    }
+
+    function playGame(playerChoice) {
+        const computerChoice = computerPlay();
+        const result = playRound(playerChoice, computerChoice);
+        displayChoices(playerChoice, computerChoice);
+        document.getElementById('expl').textContent = `Computer chose ${computerChoice}. You chose ${playerChoice}.`;
+        document.getElementById('result').textContent = `${result}`;
+    }
+</script>
+
+</body>
+</html>
